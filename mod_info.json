@@ -2,7 +2,7 @@
   "id":"SmartMining",
   "name":"SmartMining",
   "author":"TheStranger",
-  "utility":"true",
+  "utility":"false",
   "version":"0.1",
   "description":"Adds better mining",
   "gameVersion":"0.96a-RC10",
