@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="SmartMining">
+    <output-path>$PROJECT_DIR$/out/artifacts/SmartMining</output-path>
+    <root id="archive" name="SmartMining.jar">
+      <element id="module-output" name="SmartMining" />
+    </root>
+  </artifact>
+</component>

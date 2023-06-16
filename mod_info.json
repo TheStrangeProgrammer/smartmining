@@ -1,0 +1,12 @@
+{
+  "id":"SmartMining",
+  "name":"SmartMining",
+  "author":"TheStranger",
+  "utility":"true",
+  "version":"0.1",
+  "description":"Adds better mining",
+  "gameVersion":"0.96a-RC10",
+  "jars":["jars/SmartMining.jar"],
+  "modPlugin":"smartmining.plugins.SmartMiningModPlugin"
+
+}

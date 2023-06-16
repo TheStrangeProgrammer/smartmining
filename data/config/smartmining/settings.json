@@ -1,0 +1,160 @@
+{
+	"weapons": ["mininglaser","miningblaster","hammer","hammer_single","hammerrack"],
+	"cr_loss_per_day":{
+		"min": 0.01,
+		"max": 0.05
+	},
+	"accident_probability":0.05,
+	"cache_probability":0.05,
+	"resources": {
+		"asteroid_field": {
+			"commodities": {
+				"ore": {
+					"min": 0.5,
+					"max": 1
+				}
+			}
+		},
+		"asteroid_belt": {
+			"commodities": {
+				"ore": {
+					"min": 0.5,
+					"max": 1
+				},
+				"rare_ore": {
+					"min": 0.1,
+					"max": 0.2
+				}
+			}
+		},
+		"ring": {
+			"commodities": {
+				"ore": {
+					"min": 1,
+					"max": 2
+				},
+				"rare_ore": {
+					"min": 0.2,
+					"max": 0.4
+				}
+			}
+		},
+		"nebula": {
+			"commodities": {
+				"volatiles": {
+					"min": 0.2,
+					"max": 0.4
+				}
+			}
+		},
+		"corona": {
+			"commodities": {
+				"volatiles": {
+					"min": 0.5,
+					"max": 1
+				}
+			}
+		},
+		"pulsar_beam": {
+			"commodities": {
+				"volatiles": {
+					"min": 1,
+					"max": 2
+				}
+			}
+		}
+	},
+	"hidden_caches": {
+		"cryopods": {
+			"probability": 0.1,
+			"commodities": {
+				"crew": {
+					"min": 0.1,
+					"max": 0.5
+				}
+			}
+		},
+		"civilian_cargo": {
+			"probability": 0.7,
+			"commodities": {
+				"supplies": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"fuel": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"food": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"domestic_goods": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"luxury_goods": {
+					"min": 0.01,
+					"max": 0.05
+				},
+				"metals": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"rare_metals": {
+					"min": 0.01,
+					"max": 0.05
+				},
+				"heavy_machinery": {
+					"min": 0.01,
+					"max": 0.05
+				}
+			}
+		},
+		"smuggler_cargo": {
+			"probability": 0.2,
+			"commodities": {
+				"organs": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"drugs": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"hand_weapons": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"luxury_goods": {
+					"min": 0.1,
+					"max": 0.5
+				}
+			}
+		},
+		"military_cargo": {
+			"probability": 0.1,
+			"commodities": {
+				"heavy_machinery": {
+					"min": 0.1,
+					"max": 0.5
+				},
+				"hand_weapons": {
+					"min": 0.1,
+					"max": 0.5
+				}
+			}
+		},
+		"ancient_cargo": {
+			"probability": 0.01,
+			"commodities": {
+				"gamma_core": {
+					"min": 0.01,
+					"max": 0.02,
+					"limit": 1
+				}
+			}
+		}
+	}
+
+}
