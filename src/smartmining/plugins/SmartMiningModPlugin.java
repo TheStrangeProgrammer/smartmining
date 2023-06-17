@@ -2,6 +2,7 @@ package smartmining.plugins;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.impl.campaign.intel.GenericMissionManager;
 import com.fs.starfarer.api.loading.WeaponSpecAPI;
 import com.fs.starfarer.combat.CombatEngine;
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import smartmining.SMConstants;
 import smartmining.SMDrop;
 import smartmining.SMMisc;
 import smartmining.campaign.abilities.SMAbilities;
+import smartmining.campaign.intel.missions.creators.MiningMissionCreator;
 
 import java.io.IOException;
 import java.util.*;
@@ -26,8 +28,15 @@ public class SmartMiningModPlugin extends BaseModPlugin {
         loadSettings();
         loadWeapons();
         SMDrop.loadDropTable();
+        addScriptsIfNeeded();
     }
-    void loadSettings(){
+    protected void addScriptsIfNeeded() {
+        GenericMissionManager manager = GenericMissionManager.getInstance();
+        if (!manager.hasMissionCreator(MiningMissionCreator.class)) {
+            manager.addMissionCreator(new MiningMissionCreator());
+        }
+    }
+    protected void loadSettings(){
         try{
             JSONObject settingsFile = Global.getSettings().getMergedJSONForMod(SMConstants.SETTINGS_PATH, SMConstants.MOD_ID);
             JSONObject cr_loss = settingsFile.getJSONObject("cr_loss_per_day");
@@ -36,11 +45,13 @@ public class SmartMiningModPlugin extends BaseModPlugin {
 
             SMConstants.ACCIDENT_PROBABILITY = (float)settingsFile.getDouble("accident_probability");
             SMConstants.CACHE_PROBABILITY = (float)settingsFile.getDouble("cache_probability");
+            SMConstants.SENSOR_DETECTED_DEBUFF = (float)settingsFile.getDouble("sensor_detected_debuff");
+            SMConstants.BURN_DEBUFF = (float)settingsFile.getDouble("burn_debuff");
         } catch (IOException | JSONException exception) {
             throw new RuntimeException("Failed to load drops", exception);
         }
     }
-    void loadWeapons(){
+    protected void loadWeapons(){
         try{
             JSONObject settingsFile = Global.getSettings().getMergedJSONForMod(SMConstants.SETTINGS_PATH, SMConstants.MOD_ID);
             JSONArray weapons = settingsFile.getJSONArray("weapons");

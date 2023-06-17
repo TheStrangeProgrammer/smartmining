@@ -6,6 +6,8 @@
 	},
 	"accident_probability":0.05,
 	"cache_probability":0.05,
+	"burn_debuff": 0.20,
+	"sensor_detected_debuff": 0.20,
 	"resources": {
 		"asteroid_field": {
 			"commodities": {

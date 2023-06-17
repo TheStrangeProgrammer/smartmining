@@ -12,8 +12,8 @@ import org.apache.log4j.Logger;
 import smartmining.SMConstants;
 import smartmining.SMDrop;
 import smartmining.SMMisc;
-import smartmining.campaign.intel.SMIntelAccidentReport;
-import smartmining.campaign.intel.SMIntelCacheReport;
+import smartmining.campaign.intel.reports.SMIntelAccidentReport;
+import smartmining.campaign.intel.reports.SMIntelCacheReport;
 
 import java.util.List;
 import java.util.Map;
@@ -92,11 +92,5 @@ public class SMEvents {
         Global.getSector().getCampaignUI().addMessage(intel);
         SMIntelCacheReport.commodities.clear();
     }
-    public static void pirateAttack(){
 
-    }
-
-    public static void damageCR(){
-
-    }
 }

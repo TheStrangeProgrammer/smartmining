@@ -1,7 +1,6 @@
 package smartmining;
 
-import com.fs.starfarer.api.campaign.CampaignFleetAPI;
-import com.fs.starfarer.api.campaign.CampaignTerrainAPI;
+import com.fs.starfarer.api.campaign.*;
 import com.fs.starfarer.api.impl.campaign.ids.Terrain;
 import com.fs.starfarer.api.impl.campaign.terrain.*;
 import org.json.JSONException;
@@ -36,7 +35,9 @@ public class SMMisc {
             throw new RuntimeException("Failed to map json", exception);
         }
     }
+
     public static String getTerrainId(CampaignFleetAPI fleet){
+
         for (CampaignTerrainAPI terrain : fleet.getContainingLocation().getTerrainCopy()) {
             if (terrain.getPlugin() instanceof AsteroidFieldTerrainPlugin) {
                 if (terrain.getPlugin().containsEntity(fleet)) {
@@ -65,6 +66,5 @@ public class SMMisc {
             }
         }
         return null;
-
     }
 }

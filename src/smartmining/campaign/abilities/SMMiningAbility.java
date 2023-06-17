@@ -2,19 +2,19 @@ package smartmining.campaign.abilities;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CampaignFleetAPI;
+import com.fs.starfarer.api.characters.AbilityPlugin;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.abilities.BaseToggleAbility;
-import com.fs.starfarer.api.impl.campaign.events.OfficerManagerEvent;
+import com.fs.starfarer.api.impl.campaign.ids.Abilities;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 
 import com.fs.starfarer.api.ui.LabelAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.IntervalUtil;
 import com.fs.starfarer.api.util.Misc;
-import org.apache.log4j.Logger;
 import smartmining.*;
 
-import smartmining.campaign.intel.SMIntelMiningReport;
+import smartmining.campaign.intel.reports.SMIntelMiningReport;
 import smartmining.events.SMEvents;
 
 
@@ -24,10 +24,8 @@ import java.util.List;
 
 public class SMMiningAbility extends BaseToggleAbility {
 
-    private final float BURN_DEBUFF = -0.2f;
-    private final float DETECTED_DEBUFF = 0.2f;
     private final IntervalUtil miningAsteroidTracker = new IntervalUtil(1f, 1f);
-    private final IntervalUtil miningEventTracker = new IntervalUtil(1f, 5f);
+    private final IntervalUtil miningEventTracker = new IntervalUtil(2f, 5f);
     private final IntervalUtil miningReportTracker = new IntervalUtil(3f, 3f);
 
 
@@ -35,9 +33,9 @@ public class SMMiningAbility extends BaseToggleAbility {
     private Random random = new Random();
     @Override
     protected void activateImpl() {
-        miningAsteroidTracker.setElapsed(0f);
-        miningEventTracker.setElapsed(0f);
-        miningReportTracker.setElapsed(0f);
+        miningAsteroidTracker.setElapsed(1f);
+        miningEventTracker.setElapsed(1f);
+        miningReportTracker.setElapsed(1f);
         SMIntelMiningReport.commodities.clear();
     }
 
@@ -45,44 +43,49 @@ public class SMMiningAbility extends BaseToggleAbility {
     protected void applyEffect(float amount, float level) {
         CampaignFleetAPI fleet = getFleet();
         if (fleet == null) return;
-
+        if(fleet.getCargo().getSpaceUsed()>=fleet.getCargo().getMaxCapacity()) deactivate();
+        disableIncompatible();
         String terrain = SMMisc.getTerrainId(fleet);
-        float miningPower = SMStats.getFleetMiningPower(fleet);
         if(terrain==null){
             deactivate();
             return;
         }
 
-        if(fleet.getCargo().getSpaceUsed()>=fleet.getCargo().getMaxCapacity() ||
-                miningPower<=0||
-                Math.round(fleet.getCargo().getCommodityQuantity(Commodities.HEAVY_MACHINERY))<SMStats.getMiningHeavyMachinery(miningPower)
-        ){
-            deactivate();
-        }
-
-
-        fleet.getStats().getDetectedRangeMod().modifyMult("sm_mining", 1f + DETECTED_DEBUFF * level, "Smart Mining");
-        fleet.getStats().getFleetwideMaxBurnMod().modifyMult("sm_mining", 1f + BURN_DEBUFF * level, "Smart Mining");
+        fleet.getStats().getDetectedRangeMod().modifyMult("sm_mining", 1f + SMConstants.SENSOR_DETECTED_DEBUFF * level, "Smart Mining");
+        fleet.getStats().getFleetwideMaxBurnMod().modifyMult("sm_mining", 1f + SMConstants.BURN_DEBUFF * level, "Smart Mining");
 
         if(level>=1 && amount>0){
             float days = Global.getSector().getClock().convertToDays(amount);
-            List<FleetMemberAPI> miningFleet = SMStats.getMiningFleet(fleet);
+
 
             if(miningAsteroidTracker.intervalElapsed()){
-                miningAsteroidTracker.setElapsed(0);
+                miningAsteroidTracker.setElapsed(0f);
+
+                List<FleetMemberAPI> miningFleet = SMStats.getMiningFleet(fleet);
+
+                float miningPower = SMStats.getFleetMiningPower(fleet);
+
+
+                if(miningPower<=0 || Math.round(fleet.getCargo().getCommodityQuantity(Commodities.HEAVY_MACHINERY))<SMStats.getMiningHeavyMachinery(miningPower)){
+                    deactivate();
+                    return;
+                }
+
                 runMiningEvent(fleet,miningFleet, terrain, miningPower,random);
-            }
-            if(miningReportTracker.intervalElapsed()) {
-                miningReportTracker.setElapsed(0);
-                runMiningReport();
-            }
-            if(miningEventTracker.intervalElapsed()) {
-                miningEventTracker.setElapsed(0);
-                SMEvents.runEvent(fleet,miningFleet, terrain,miningPower,random);
+
+                if(miningReportTracker.intervalElapsed()) {
+                    miningReportTracker.setElapsed(0f);
+                    runMiningReport();
+                }
+                if(miningEventTracker.intervalElapsed()) {
+                    miningEventTracker.setElapsed(0f);
+                    SMEvents.runEvent(fleet,miningFleet, terrain,miningPower,random);
+                }
+                miningEventTracker.advance(1f);
+                miningReportTracker.advance(1f);
             }
             miningAsteroidTracker.advance(days);
-            miningEventTracker.advance(days);
-            miningReportTracker.advance(days);
+
         }
     }
 
@@ -157,16 +160,34 @@ public class SMMiningAbility extends BaseToggleAbility {
         CampaignFleetAPI fleet = getFleet();
         if (fleet == null) return false;
         float miningPower = SMStats.getFleetMiningPower(fleet);
+
         return super.isUsable() &&
                 SMMisc.getTerrainId(fleet) != null &&
                 miningPower>0 &&
-                Math.round(fleet.getCargo().getCommodityQuantity(Commodities.HEAVY_MACHINERY))>=SMStats.getMiningHeavyMachinery(miningPower);
+                Math.round(fleet.getCargo().getCommodityQuantity(Commodities.HEAVY_MACHINERY))>=SMStats.getMiningHeavyMachinery(miningPower) &&
+                isUsingIncompatible();
     }
+
     @Override
     public void advance(float amount) {
         super.advance(amount);
     }
+    @Override
+    public boolean isCompatible(AbilityPlugin other) {
 
+        return !other.getId().equals(Abilities.SUSTAINED_BURN) &&
+                !other.getId().equals(Abilities.EMERGENCY_BURN) &&
+                !other.getId().equals(Abilities.GO_DARK);
+    }
+    public boolean isUsingIncompatible() {
+        for (AbilityPlugin other : this.getFleet().getAbilities().values()) {
+            if (other == this) continue;
+            if (!isCompatible(other) && other.isActiveOrInProgress()) {
+                return false;
+            }
+        }
+        return true;
+    }
     protected void runMiningEvent(CampaignFleetAPI fleet,List<FleetMemberAPI> miningFleet,String terrain,float miningPower,Random random){
         for(FleetMemberAPI fleetMember : miningFleet){
             fleetMember.getRepairTracker().applyCREvent(

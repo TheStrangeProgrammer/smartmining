@@ -1,4 +1,4 @@
-package smartmining.campaign.intel;
+package smartmining.campaign.intel.reports;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.intel.BaseIntelPlugin;

@@ -6,7 +6,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import smartmining.SMConstants;
 import smartmining.SMMisc;
-import smartmining.campaign.intel.SMIntelAccidentReport;
+import smartmining.campaign.intel.reports.SMIntelAccidentReport;
 
 import java.util.List;
 import java.util.Random;
