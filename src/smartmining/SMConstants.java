@@ -4,6 +4,7 @@ public class SMConstants {
     public static final String SETTINGS_PATH = "data/config/smartmining/settings.json";
     public static float CR_LOSS_PER_DAY_MIN = 0.01f;
     public static float CR_LOSS_PER_DAY_MAX = 0.05f;
+    public static float SUPPLIES_TO_RECOVER = 0.25f;
     public static float ACCIDENT_PROBABILITY = 0.10f;
     public static float CACHE_PROBABILITY = 0.05f;
     public static float PIRATE_PROBABILITY = 0.05f;

@@ -9,6 +9,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.MemFlags;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import com.fs.starfarer.api.impl.campaign.intel.BaseMissionIntel;
+
 import com.fs.starfarer.api.ui.SectorMapAPI;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
@@ -58,6 +59,7 @@ public class MiningMissionIntel extends BaseMissionIntel {
     }
 
     public MarketAPI getMarket(){
+
         return market;
     }
     @Override
@@ -251,7 +253,7 @@ public class MiningMissionIntel extends BaseMissionIntel {
 
     }
     public String getIcon() {
-        return Global.getSettings().getSpriteName("hullmods", "ablative_armor");
+        return "graphics/hullmods/ablative_armor.png";
     }
     public Set<String> getIntelTags(SectorMapAPI map) {
         Set<String> tags = super.getIntelTags(map);

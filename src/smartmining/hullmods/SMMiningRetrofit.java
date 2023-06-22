@@ -11,6 +11,7 @@ import com.fs.starfarer.api.impl.hullmods.BaseLogisticsHullMod;
 import com.fs.starfarer.api.loading.WeaponGroupSpec;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
 import com.fs.starfarer.api.util.Misc;
+import smartmining.SMConstants;
 import smartmining.SMStats;
 
 import java.awt.*;
@@ -30,6 +31,7 @@ public class SMMiningRetrofit extends BaseLogisticsHullMod {
 
     @Override
     public void applyEffectsBeforeShipCreation(HullSize hullSize, MutableShipStatsAPI stats, String id) {
+        stats.getSuppliesToRecover().modifyMult(id,1f- SMConstants.SUPPLIES_TO_RECOVER);
         stats.getDynamic().getMod(SMStats.SM_MINING_POWER).modifyMult(id+"_mult",1f + (Float) miningPower.get(hullSize));
         stats.getDynamic().getMod(SMStats.SM_MINING_POWER).modifyFlat(id+"_flat",SMStats.getWeaponMiningPower(stats.getVariant()));
     }

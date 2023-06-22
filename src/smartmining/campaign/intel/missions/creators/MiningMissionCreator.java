@@ -4,6 +4,8 @@ import com.fs.starfarer.api.EveryFrameScript;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.PlanetAPI;
+import com.fs.starfarer.api.campaign.SectorEntityToken;
+import com.fs.starfarer.api.campaign.StarSystemAPI;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.econ.MarketDemandAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
@@ -12,6 +14,8 @@ import com.fs.starfarer.api.impl.campaign.intel.GenericMissionManager.GenericMis
 import com.fs.starfarer.api.util.Misc;
 import com.fs.starfarer.api.util.WeightedRandomPicker;
 import smartmining.campaign.intel.missions.MiningMissionIntel;
+
+import java.util.Random;
 
 public class MiningMissionCreator implements GenericMissionCreator {
     @Override
@@ -42,6 +46,8 @@ public class MiningMissionCreator implements GenericMissionCreator {
                 }
             }
         }
+
+
 
         return market;
     }

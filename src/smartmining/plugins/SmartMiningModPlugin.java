@@ -47,6 +47,7 @@ public class SmartMiningModPlugin extends BaseModPlugin {
             SMConstants.CACHE_PROBABILITY = (float)settingsFile.getDouble("cache_probability");
             SMConstants.SENSOR_DETECTED_DEBUFF = (float)settingsFile.getDouble("sensor_detected_debuff");
             SMConstants.BURN_DEBUFF = (float)settingsFile.getDouble("burn_debuff");
+            SMConstants.SUPPLIES_TO_RECOVER = (float)settingsFile.getDouble("supplies_to_recover_buff");
         } catch (IOException | JSONException exception) {
             throw new RuntimeException("Failed to load drops", exception);
         }
