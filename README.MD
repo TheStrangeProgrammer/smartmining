@@ -1,4 +1,4 @@
-SmartMining v0.1
+SmartMining v0.2.1
 
 This mod add a mining ability.
 
@@ -10,7 +10,7 @@ You can mine in asteroid fields, asteroid belts, rings, nebulas, coronas, pulsar
 
 
 Planned features:
-	- Mining missions
+	- More mining missions
 	- More hullmods
 	- More events (like pirate attacks)
 	- Differentiate locations better
@@ -20,5 +20,5 @@ Changelog:
 Added - Mod
 ```
 
-Download: https://github.com/TheStrangeProgrammer/smartmining/releases/download/v0.1/SmartMining.zip
+Download: https://github.com/TheStrangeProgrammer/smartmining/releases/download/v0.2.1/SmartMining.zip
 Forum Thread: not yet
